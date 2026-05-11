@@ -15,7 +15,7 @@ jobs:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v6
 
-      - name: Create .env
+      - name: 'Create .env'
         run: |
           cat > ./PlantaCoreAPI.API/.env << EOF
           ConnectionStrings__DefaultConnection=${{ secrets.DEFAULT_CONNECTION }}
@@ -55,6 +55,17 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - run: |
-          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/plantacore:${{ github.sha }}
+      - name: 'Build and push Docker image'
+        run: |
+          docker build . \
+            -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/plantacore:${{ github.sha }} \
+            -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/plantacore:latest
+
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/plantacore:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/plantacore:latest
+      
+      - name: 'Restart ACI'
+        run: |
+          az container restart \
+            --name ${{ secrets.CONTAINER_INSTANCE_NAME }} \
+            --resource-group ${{ secrets.RESOURCE_GROUP }}
