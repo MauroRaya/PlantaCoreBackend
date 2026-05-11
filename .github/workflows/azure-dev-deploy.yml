@@ -15,6 +15,39 @@ jobs:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v6
 
+      - name: Create .env
+        run: |
+          cat > ./PlantaCoreAPI.API/.env << EOF
+          ConnectionStrings__DefaultConnection=${{ secrets.DEFAULT_CONNECTION }}
+
+          Frontend__Url=${{ secrets.FRONTEND_URL }}
+
+          Jwt__ChaveSecreta=${{ secrets.JWT_CHAVE_SECRETA }}
+          Jwt__MinutosValidadeTokenAcesso=${{ secrets.JWT_MINUTOS_VALIDADE_TOKEN_ACESSO }}
+
+          Email__SmtpHost=${{ secrets.EMAIL_SMTP_HOST }}
+          Email__SmtpPort=${{ secrets.EMAIL_SMTP_PORT }}
+          Email__Email=${{ secrets.EMAIL_EMAIL }}
+          Email__Senha=${{ secrets.EMAIL_SENHA }}
+
+          PlantNet__ChaveApi=${{ secrets.PLANT_NET_CHAVE_API }}
+
+          Trefle__ChaveApi=${{ secrets.TREFLE_CHAVE_API }}
+
+          Gemini__Provider=${{ secrets.GEMINI_PROVIDER }}
+          Gemini__ChavesApi=${{ secrets.GEMINI_CHAVES_API }}
+          Gemini__Modelo=${{ secrets.GEMINI_MODELO }}
+          Gemini__BaseUrl=${{ secrets.GEMINI_BASE_URL }}
+          Gemini__MaxOutputTokens=${{ secrets.GEMINI_MAX_OUTPUT_TOKENS }}
+          Gemini__Temperature=${{ secrets.GEMINI_TEMPERATURE }}
+          Gemini__TopP=${{ secrets.GEMINI_TOP_P }}
+
+          Supabase__Url=${{ secrets.SUPABASE_URL }}
+          Supabase__ChavePublica=${{ secrets.SUPABASE_CHAVE_PUBLICA }}
+
+          Admin__ChaveSecreta=${{ secrets.ADMIN_CHAVE_SECRETA }}
+          EOF
+
       - name: 'Login to ACR'
         uses: azure/docker-login@v2
         with:
