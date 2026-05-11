@@ -7,6 +7,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 COPY ["PlantaCoreAPI.API/PlantaCoreAPI.API.csproj", "PlantaCoreAPI.API/"]
+COPY ["PlantaCoreAPI.API/.env", "PlantaCoreAPI.API/.env"]
+
 COPY ["PlantaCoreAPI.Application/PlantaCoreAPI.Application.csproj", "PlantaCoreAPI.Application/"]
 COPY ["PlantaCoreAPI.Domain/PlantaCoreAPI.Domain.csproj", "PlantaCoreAPI.Domain/"]
 COPY ["PlantaCoreAPI.Infrastructure/PlantaCoreAPI.Infrastructure.csproj", "PlantaCoreAPI.Infrastructure/"]
